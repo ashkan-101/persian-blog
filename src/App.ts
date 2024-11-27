@@ -1,6 +1,7 @@
 import express from 'express'
 import { Application } from 'express'
 import RouterService from './router/RouterService'
+import postgresConnection from './Infrastructures/connections/postgreSQL'
 
 
 export default class App {
@@ -18,6 +19,7 @@ export default class App {
     this.router.run()
     this.app.listen(this.port, () => {
       console.log('Application is running ...');
+      postgresConnection()
     })
   }
 }
