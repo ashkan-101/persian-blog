@@ -1,11 +1,13 @@
+import ISubcategoryPG from "../../../category/entity/contracts/ISubcategory.PG"
+
 export default interface IUserPG {
   id: string
   name: string
   mobile: string
   avatar: string
-  // favoriteSubcategories: 
+  favoriteSubcategories: ISubcategoryPG[]
   // favoritePosts:
-  // like:  
+  // favoriteAuthors: 
   // comment: 
   createdAt: Date
   updatedAt: Date
