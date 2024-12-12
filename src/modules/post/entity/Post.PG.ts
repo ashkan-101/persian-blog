@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne, JoinColumn, OneToMany, ManyToMany } from "typeorm";
 import IPostPG from "./contracts/IPost.PG";
 import SubcategoryPG from "../../category/entity/Subcategory.PG";
+import CommentPG from "../../comment/entity/Comment.PG";
+import UserPG from "../../user/entity/User.PG";
 
 @Entity('post')
 export default class PostPG extends BaseEntity implements IPostPG {
@@ -28,6 +30,12 @@ export default class PostPG extends BaseEntity implements IPostPG {
   @ManyToOne(()=> SubcategoryPG, subcategory => subcategory.posts)
   @JoinColumn({name: 'subcategory'})
   subcategory!: SubcategoryPG;
+
+  @OneToMany(()=> CommentPG, comment => comment.post)
+  comments!: CommentPG[];
+
+  @ManyToMany(()=> UserPG, user => user.favoritePosts)
+  favoriteBy!: UserPG[];
 
   @Column({type: 'int', default: 0})
   views!: number;

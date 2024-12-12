@@ -1,4 +1,6 @@
 import ISubcategoryPG from "../../../category/entity/contracts/ISubcategory.PG"
+import ICommentPG from "../../../comment/entity/contracts/IComment.PG"
+import IPostPG from "../../../post/entity/contracts/IPost.PG"
 
 export default interface IUserPG {
   id: string
@@ -6,9 +8,9 @@ export default interface IUserPG {
   mobile: string
   avatar: string
   favoriteSubcategories: ISubcategoryPG[]
-  // favoritePosts:
+  favoritePosts: IPostPG[]
   // favoriteAuthors: 
-  // comment: 
+  comment: ICommentPG[]
   createdAt: Date
   updatedAt: Date
 }

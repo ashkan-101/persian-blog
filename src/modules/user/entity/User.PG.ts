@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, Entity, BaseEntity, ManyToMany, JoinTable } from "typeorm";
+import { Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, Entity, BaseEntity, ManyToMany, OneToMany, JoinTable } from "typeorm";
 import IUserPG from "./contracts/IUser.PG";
 import SubcategoryPG from "../../category/entity/Subcategory.PG";
+import CommentPG from "../../comment/entity/Comment.PG";
+import PostPG from "../../post/entity/Post.PG";
 
 @Entity('user')
 export default class UserPG extends BaseEntity implements IUserPG {
@@ -19,6 +21,13 @@ export default class UserPG extends BaseEntity implements IUserPG {
   @ManyToMany(()=> SubcategoryPG, subcategory => subcategory.folowingUsers)
   @JoinTable()
   favoriteSubcategories!: SubcategoryPG[]
+
+  @OneToMany(()=> CommentPG, comment => comment.user)
+  comment!: CommentPG[];
+
+  @ManyToMany(()=> PostPG, post => post.favoriteBy)
+  @JoinTable()
+  favoritePosts!: PostPG[];
 
   @CreateDateColumn()
   createdAt!: Date;
