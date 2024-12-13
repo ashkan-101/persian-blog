@@ -3,6 +3,7 @@ import { Application } from 'express'
 import RouterService from './router/RouterService'
 import postgresConnection from './Infrastructures/connections/postgreSQL'
 import Boot from './boot/Boot'
+import startMiddlewares from './middlewares/exception/index'
 
 
 export default class App {
@@ -21,6 +22,7 @@ export default class App {
   public start(){
     this.boot.init()
     this.router.run()
+    startMiddlewares(this.app)
     this.app.listen(this.port, () => {
       console.log('Application is running ...');
       postgresConnection()
