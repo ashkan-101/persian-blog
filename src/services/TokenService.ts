@@ -13,3 +13,8 @@ const verify = (token: string): false | jwt.JwtPayload => {
   return false
  }
 }
+
+export {
+  sign,
+  verify
+}
