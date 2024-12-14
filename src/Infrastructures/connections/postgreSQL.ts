@@ -1,5 +1,11 @@
 import { DataSource } from "typeorm";
 import { config } from "dotenv";
+import CategoryPG from "../../modules/category/entity/Category.PG";
+import SubcategoryPG from "../../modules/category/entity/Subcategory.PG";
+import CommentPG from "../../modules/comment/entity/Comment.PG";
+import PostPG from "../../modules/post/entity/Post.PG";
+import RegisterCode from "../../modules/registerCode/entity/RegisterCode";
+import UserPG from "../../modules/user/entity/User.PG";
 config()
 
 const dataSource: DataSource = new DataSource({
@@ -10,7 +16,7 @@ const dataSource: DataSource = new DataSource({
   password: process.env.PG_PASSWORD,
   database: 'persian-blog',
   synchronize: true,
-  entities: []
+  entities: [CategoryPG, SubcategoryPG, CommentPG, PostPG, RegisterCode, UserPG]
 })
 
 const postgresConnection = async () => {
