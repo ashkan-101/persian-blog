@@ -12,4 +12,20 @@ export default class AuthFactory {
     this.userRepository = new UserPGRepository()
     this.codeRepository = new RegisterCodePGRepository()
   }
+
+  public async saveCodeInRepository(mobile: string, code: string){
+    return await this.codeRepository.create({mobile, code})
+  }
+  public async saveUserInRepository(mobile: string){
+    return await this.userRepository.create({mobile})
+  }
+  public async getUserByMobile(mobile: string){
+    return await this.userRepository.findOne({mobile})
+  }
+  public async getCodeInRepository(code: string, mobile: string){
+    return await this.codeRepository.findOne({code, mobile})
+  }
+  public async deleteCodeInRepository(id: string){
+    return await this.codeRepository.deleteOne({id})
+  }
 }

@@ -11,7 +11,7 @@ export default class CommentPG extends BaseEntity implements ICommentPG {
   @Column({type: 'varchar', nullable: false})
   title!: string;
 
-  @Column({type: 'text', nullable: false, length: 150})
+  @Column({type: 'text', nullable: false})
   body!: string;
 
   @ManyToOne(()=> UserPG, user => user.comment)
