@@ -1,6 +1,9 @@
 import { Application } from "express";
 import RouterEngine from "./RouterEngine";
+//client
 import authRouter from "../modules/auth/AuthRouter";
+//admin
+import categoryAdminRouter from "../modules/category/admin/CategoryRouter";
 
 
 export default class RouterService {
@@ -15,7 +18,10 @@ export default class RouterService {
   }
 
   private bindRouter(){
+    //client
     this.router.addRouter('/auth', authRouter)
+    //admin
+    this.router.addRouter('/admin-category', categoryAdminRouter)
   }
 
   public run(){

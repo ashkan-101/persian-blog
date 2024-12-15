@@ -8,14 +8,6 @@ export default class AuthService {
     this.factory = new AuthFactory()
   }
 
-  private async validateUser(mobile: string){
-    const user = await this.factory.getUserByMobile(mobile)
-    if(!user){
-      return false
-    }else{
-      return user
-    }
-  }
   private async validateCode(code: string, mobile: string){
     const getCode = await this.factory.getCodeInRepository(code, mobile)
     if(!getCode){
@@ -37,7 +29,7 @@ export default class AuthService {
   }
   public async signin(mobile: string, code: string){
     await this.validateCode(code, mobile)
-    const user = await this.validateUser(mobile)
+    const user = await this.factory.getUserByMobile(mobile)
     if(!user){
       return await this.registerUser(mobile)
     }else{
