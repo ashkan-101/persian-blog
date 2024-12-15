@@ -42,4 +42,18 @@ export default class CategoryController {
       next(error)
     }
   }
+
+  public async deleteCategory(req: Request, res: Response, next: NextFunction){
+    try {
+      const categoryId: string = req.params.id
+
+      await this.service.deleteCategory(categoryId)
+
+      res.status(200).send({
+        msg: true
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

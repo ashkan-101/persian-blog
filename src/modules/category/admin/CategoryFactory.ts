@@ -25,4 +25,8 @@ export default class CategoryFactory {
   public async saveUpdateCategory(categoryId: string ,categoryTitle?: string, categoryStatus?: CategoryStatus){
     return await this.categoryRepository.updateOne({id: categoryId}, {title: categoryTitle, status: categoryStatus})
   }
+
+  public async deleteCategoryWithId(categoryId: string){
+    return await this.categoryRepository.deleteOne({id: categoryId})
+  }
 }
