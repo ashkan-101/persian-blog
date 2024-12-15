@@ -39,4 +39,8 @@ export default class CategoryService{
       throw new NotFoundException('not found any record')
     }
   }
+
+  public async getCategories(){
+    return await this.factory.getAllCategories(['subcategories'])
+  }
 }

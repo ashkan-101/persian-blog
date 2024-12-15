@@ -56,4 +56,16 @@ export default class CategoryController {
       next(error)
     }
   }
+
+  public async getCategories(req: Request, res: Response, next: NextFunction){
+    try {
+      const categories: ICategoryPG[] = await this.service.getCategories()
+      res.status(200).send({
+        msg: true,
+        categories
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

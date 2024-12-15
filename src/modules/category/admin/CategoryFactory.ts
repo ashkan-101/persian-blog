@@ -29,4 +29,8 @@ export default class CategoryFactory {
   public async deleteCategoryWithId(categoryId: string){
     return await this.categoryRepository.deleteOne({id: categoryId})
   }
+
+  public async getAllCategories(relations?: string[]){
+    return await this.categoryRepository.findMany({}, relations)
+  }
 }
