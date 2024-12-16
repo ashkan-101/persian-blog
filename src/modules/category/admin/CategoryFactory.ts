@@ -43,4 +43,8 @@ export default class CategoryFactory {
   public async saveNewSubcategory(subcategoryTitle: string, categoryId: string){
     return await this.subcategoryRepository.create({title: subcategoryTitle, category: categoryId})
   }
+
+  public async deleteSubcategoryWithId(subcategoryId: string){
+    return await this.subcategoryRepository.deleteOne({id: subcategoryId})
+  }
 }

@@ -53,4 +53,11 @@ export default class CategoryService{
     }
     return await this.factory.saveNewSubcategory(subcategoryTitle, categoryId)
   }
+
+  public async deleteSubcategory(subcategoryId: string){
+    const deleteresult = await this.factory.deleteSubcategoryWithId(subcategoryId)
+    if(!deleteresult){
+      throw new NotFoundException('not found any record')
+    }
+  }
 }

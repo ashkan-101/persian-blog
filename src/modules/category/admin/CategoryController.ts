@@ -88,4 +88,18 @@ export default class CategoryController {
     }
   }
 
+  public async deleteSubcategory(req: Request, res: Response, next: NextFunction){
+    try {
+      const subcategoryId: string = req.params.id
+
+      await this.service.deleteSubcategory(subcategoryId)
+
+      res.status(200).send({
+        msg: true
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
 }
