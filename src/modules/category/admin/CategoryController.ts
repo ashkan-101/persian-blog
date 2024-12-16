@@ -1,5 +1,6 @@
 import CategoryStatus from "../entity/contracts/CategoryStatus"
 import ICategoryPG from "../entity/contracts/ICategory.PG"
+import ISubcategoryPG from "../entity/contracts/ISubcategory.PG"
 import CategoryService from "./CategoryService"
 import { Request, Response, NextFunction } from "express"
 
@@ -10,7 +11,7 @@ export default class CategoryController {
   constructor(){
     this.service = new CategoryService()
   }
-
+//category
   public async newCategory(req: Request, res: Response, next: NextFunction){
     try {
       const categoryTitle: string = req.body.categoryTitle
@@ -65,7 +66,26 @@ export default class CategoryController {
         categories
       })
     } catch (error) {
+      console.log(error);
       next(error)
     }
   }
+
+//subcategory
+  public async newSubcategory(req: Request, res: Response, next: NextFunction){
+    try {
+      const subcategoryTitle: string = req.body.subcategoryTitle
+      const categoryId: string = req.body.categoryId
+      
+      const subcategory: ISubcategoryPG = await this.service.newSubcategory(subcategoryTitle, categoryId)
+      
+      res.status(201).send({
+        msg: true,
+        subcategory
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
 }

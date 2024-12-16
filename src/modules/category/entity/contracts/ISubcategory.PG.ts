@@ -5,7 +5,7 @@ import ICategoryPG from "./ICategory.PG"
 export default interface ISubcategoryPG{
   id: string
   title: string
-  category: ICategoryPG
+  category: string
   posts: IPostPG[]
   folowingUsers: IUserPG[]
   createdAt: Date

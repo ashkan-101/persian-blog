@@ -12,6 +12,7 @@ export default class CategoryService{
     this.factory = new CategoryFactory()
   }
 
+//category
   public async newCategory(categoryTitle: string){
     const validateCategoryTitle = await this.factory.getCategoryWithTitle(categoryTitle)
     if(validateCategoryTitle){
@@ -42,5 +43,14 @@ export default class CategoryService{
 
   public async getCategories(){
     return await this.factory.getAllCategories(['subcategories'])
+  }
+
+//subcategory
+  public async newSubcategory(subcategoryTitle: string, categoryId: string){
+    const validateSubcategoryTitle = await this.factory.getSubcategoryWithTitle(subcategoryTitle)
+    if(validateSubcategoryTitle){
+      throw new ValidationException('this title for subcategory already used')
+    }
+    return await this.factory.saveNewSubcategory(subcategoryTitle, categoryId)
   }
 }

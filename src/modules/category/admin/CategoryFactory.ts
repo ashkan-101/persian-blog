@@ -14,6 +14,7 @@ export default class CategoryFactory {
     this.subcategoryRepository = new SubcategoryPGRepository()
   }
 
+//category
   public async saveNewCategory(categoryTitle: string){
     return await this.categoryRepository.create({title: categoryTitle})
   }
@@ -32,5 +33,14 @@ export default class CategoryFactory {
 
   public async getAllCategories(relations?: string[]){
     return await this.categoryRepository.findMany({}, relations)
+  }
+
+//subcategory
+  public async getSubcategoryWithTitle(subcategoryTitle: string){
+    return await this.subcategoryRepository.findOne({title: subcategoryTitle})
+  }
+
+  public async saveNewSubcategory(subcategoryTitle: string, categoryId: string){
+    return await this.subcategoryRepository.create({title: subcategoryTitle, category: categoryId})
   }
 }

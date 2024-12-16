@@ -3,6 +3,7 @@ import ISubcategoryPG from "./contracts/ISubcategory.PG";
 import CategoryPG from "./Category.PG";
 import UserPG from "../../user/entity/User.PG";
 import PostPG from "../../post/entity/Post.PG";
+import ICategoryPG from "./contracts/ICategory.PG";
 
 @Entity('subcategory')
 export default class SubcategoryPG extends BaseEntity implements ISubcategoryPG {
@@ -12,9 +13,12 @@ export default class SubcategoryPG extends BaseEntity implements ISubcategoryPG 
   @Column({type: 'varchar', nullable: false})
   title!: string;
 
+  @Column({type: "varchar", nullable: false})
+  category!: string;
+
   @ManyToOne(()=> CategoryPG, categoryPG => categoryPG.subcategories)
   @JoinColumn({name: 'category'})
-  category!: CategoryPG;
+  categoryRelation!: CategoryPG;
 
   @OneToMany(()=> PostPG, post => post.subcategory, {onDelete: 'CASCADE'})
   posts!: PostPG[];
