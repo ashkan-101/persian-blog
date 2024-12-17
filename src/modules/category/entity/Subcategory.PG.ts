@@ -13,12 +13,9 @@ export default class SubcategoryPG extends BaseEntity implements ISubcategoryPG 
   @Column({type: 'varchar', nullable: false})
   title!: string;
 
-  @Column({type: "varchar", nullable: false})
-  category!: string;
-
   @ManyToOne(()=> CategoryPG, categoryPG => categoryPG.subcategories)
   @JoinColumn({name: 'category'})
-  categoryRelation!: CategoryPG;
+  category!: string;
 
   @OneToMany(()=> PostPG, post => post.subcategory, {onDelete: 'CASCADE'})
   posts!: PostPG[];

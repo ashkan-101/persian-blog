@@ -14,8 +14,8 @@ export default class CategoryPG extends BaseEntity implements ICategoryPG {
   @Column({type: 'varchar', enum: CategoryStatus, default: CategoryStatus.ACTIVE})
   status!: CategoryStatus;
 
-  @OneToMany(()=> SubcategoryPG, subcategoryPG => subcategoryPG.categoryRelation, {onDelete: 'CASCADE'})
-  subcategories!: SubcategoryPG[];
+  @OneToMany(()=> SubcategoryPG, subcategoryPG => subcategoryPG.category, {onDelete: 'CASCADE'})
+  subcategories!: string[];
 
   @CreateDateColumn()
   createdAt!: Date;

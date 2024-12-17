@@ -102,4 +102,16 @@ export default class CategoryController {
     }
   }
 
+  public async getSubcategories(req: Request, res: Response, next: NextFunction){
+    try {
+      const subcategories: ISubcategoryPG[] = await this.service.getSubcategories()
+      res.status(200).send({
+        msg: true,
+        subcategories
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
 }

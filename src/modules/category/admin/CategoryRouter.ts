@@ -12,5 +12,6 @@ categoryAdminRouter.get('/categories', controller.getCategories.bind(controller)
 //subcategory
 categoryAdminRouter.post('/new-subcategory', controller.newSubcategory.bind(controller))
 categoryAdminRouter.delete('/delete-subcategory/:id', controller.deleteSubcategory.bind(controller))
+categoryAdminRouter.get('/subcategories', controller.getSubcategories.bind(controller))
 
 export default categoryAdminRouter

@@ -5,7 +5,7 @@ export default interface ICategoryPG {
   id: string
   title: string
   status: CategoryStatus
-  subcategories: ISubcategoryPG[]
+  subcategories: string[]
   createdAt: Date
   updatedAt: Date
 }
