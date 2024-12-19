@@ -1,13 +1,11 @@
 import IPostPG from "../../../post/entity/contracts/IPost.PG"
-import IUserPG from "../../../user/entity/contracts/IUser.PG"
-import ICategoryPG from "./ICategory.PG"
 
 export default interface ISubcategoryPG{
   id: string
   title: string
   category: string
   posts: IPostPG[]
-  folowingUsers: IUserPG[]
+  folowingUsers: string[]
   createdAt: Date
   updatedAt: Date
 }

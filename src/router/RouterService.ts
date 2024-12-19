@@ -2,8 +2,11 @@ import { Application } from "express";
 import RouterEngine from "./RouterEngine";
 //client
 import authRouter from "../modules/auth/AuthRouter";
+import categoryClientRouter from "../modules/category/client/CategoryRouter";
+import subcategoryClientRouter from "../modules/subcategory/client/SubcategoryRouter";
 //admin
 import categoryAdminRouter from "../modules/category/admin/CategoryRouter";
+import subcategoryAdminRouter from "../modules/subcategory/admin/SubcategoryRouter";
 
 
 export default class RouterService {
@@ -20,8 +23,11 @@ export default class RouterService {
   private bindRouter(){
     //client
     this.router.addRouter('/auth', authRouter)
+    this.router.addRouter('/category', categoryClientRouter)
+    this.router.addRouter('/subcategory', subcategoryClientRouter)
     //admin
     this.router.addRouter('/admin-category', categoryAdminRouter)
+    this.router.addRouter('/admin-subcategory', subcategoryAdminRouter)
   }
 
   public run(){

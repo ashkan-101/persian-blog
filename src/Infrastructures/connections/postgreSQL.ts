@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import CategoryPG from "../../modules/category/entity/Category.PG";
-import SubcategoryPG from "../../modules/category/entity/Subcategory.PG";
+import SubcategoryPG from "../../modules/subcategory/entity/Subcategory.PG";
 import CommentPG from "../../modules/comment/entity/Comment.PG";
 import PostPG from "../../modules/post/entity/Post.PG";
 import RegisterCode from "../../modules/registerCode/entity/RegisterCode";

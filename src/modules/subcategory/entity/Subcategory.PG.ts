@@ -1,9 +1,8 @@
 import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Entity, ManyToOne, BaseEntity, JoinColumn, ManyToMany, OneToMany } from "typeorm";
 import ISubcategoryPG from "./contracts/ISubcategory.PG";
-import CategoryPG from "./Category.PG";
+import CategoryPG from "../../category/entity/Category.PG";
 import UserPG from "../../user/entity/User.PG";
 import PostPG from "../../post/entity/Post.PG";
-import ICategoryPG from "./contracts/ICategory.PG";
 
 @Entity('subcategory')
 export default class SubcategoryPG extends BaseEntity implements ISubcategoryPG {
@@ -21,7 +20,7 @@ export default class SubcategoryPG extends BaseEntity implements ISubcategoryPG 
   posts!: PostPG[];
 
   @ManyToMany(()=> UserPG, user => user.favoriteSubcategories)
-  folowingUsers!: UserPG[]
+  folowingUsers!: string[]
 
   @CreateDateColumn()
   createdAt!: Date;

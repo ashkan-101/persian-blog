@@ -1,5 +1,5 @@
 import CategoryStatus from "./CategoryStatus"
-import ISubcategoryPG from "./ISubcategory.PG"
+import ISubcategoryPG from "../../../subcategory/entity/contracts/ISubcategory.PG"
 
 export default interface ICategoryPG {
   id: string

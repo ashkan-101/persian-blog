@@ -1,4 +1,4 @@
-import ISubcategoryPG from "../../../category/entity/contracts/ISubcategory.PG"
+import ISubcategoryPG from "../../../subcategory/entity/contracts/ISubcategory.PG"
 import ICommentPG from "../../../comment/entity/contracts/IComment.PG"
 import IUserPG from "../../../user/entity/contracts/IUser.PG"
 

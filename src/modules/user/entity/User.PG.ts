@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, Entity, BaseEntity, ManyToMany, OneToMany, JoinTable } from "typeorm";
 import IUserPG from "./contracts/IUser.PG";
-import SubcategoryPG from "../../category/entity/Subcategory.PG";
+import SubcategoryPG from "../../subcategory/entity/Subcategory.PG";
 import CommentPG from "../../comment/entity/Comment.PG";
 import PostPG from "../../post/entity/Post.PG";
 
@@ -20,7 +20,7 @@ export default class UserPG extends BaseEntity implements IUserPG {
 
   @ManyToMany(()=> SubcategoryPG, subcategory => subcategory.folowingUsers)
   @JoinTable()
-  favoriteSubcategories!: SubcategoryPG[]
+  favoriteSubcategories!: string[]
 
   @OneToMany(()=> CommentPG, comment => comment.user)
   comment!: CommentPG[];

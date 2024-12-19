@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne, JoinColumn, OneToMany, ManyToMany } from "typeorm";
 import IPostPG from "./contracts/IPost.PG";
-import SubcategoryPG from "../../category/entity/Subcategory.PG";
+import SubcategoryPG from "../../subcategory/entity/Subcategory.PG";
 import CommentPG from "../../comment/entity/Comment.PG";
 import UserPG from "../../user/entity/User.PG";
 

@@ -1,7 +1,7 @@
 import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Entity, OneToMany, BaseEntity } from "typeorm";
 import ICategoryPG from "./contracts/ICategory.PG";
 import CategoryStatus from "./contracts/CategoryStatus";
-import SubcategoryPG from "./Subcategory.PG";
+import SubcategoryPG from "../../subcategory/entity/Subcategory.PG";
 
 @Entity('category')
 export default class CategoryPG extends BaseEntity implements ICategoryPG {
