@@ -4,6 +4,7 @@ import RouterEngine from "./RouterEngine";
 import authRouter from "../modules/auth/AuthRouter";
 import categoryClientRouter from "../modules/category/client/CategoryRouter";
 import subcategoryClientRouter from "../modules/subcategory/client/SubcategoryRouter";
+import userClientRouter from "../modules/user/client/UserRouter";
 //admin
 import categoryAdminRouter from "../modules/category/admin/CategoryRouter";
 import subcategoryAdminRouter from "../modules/subcategory/admin/SubcategoryRouter";
@@ -25,6 +26,7 @@ export default class RouterService {
     this.router.addRouter('/auth', authRouter)
     this.router.addRouter('/category', categoryClientRouter)
     this.router.addRouter('/subcategory', subcategoryClientRouter)
+    this.router.addRouter('/user', userClientRouter)
     //admin
     this.router.addRouter('/admin-category', categoryAdminRouter)
     this.router.addRouter('/admin-subcategory', subcategoryAdminRouter)
