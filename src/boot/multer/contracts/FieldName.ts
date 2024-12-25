@@ -1,6 +1,7 @@
 enum FieldName {
   POSTIMAGE = 'postImage',
-  AVATAR = 'avatar'
+  AVATAR = 'avatar',
+  THUMBNAIL = 'thumbnail'
 }
 
 export default FieldName

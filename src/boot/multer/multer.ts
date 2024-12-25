@@ -9,6 +9,8 @@ const fileStorage = multer.diskStorage({
       cb(null, join(process.cwd(), 'public', 'avatars'))
     }else if(file.fieldname === FieldName.POSTIMAGE){
       cb(null, join(process.cwd(), 'public', 'gallery'))
+    }else if(file.fieldname === FieldName.THUMBNAIL){
+      cb(null, join(process.cwd(), 'public', 'thumbnail'))
     }
   },
   filename(req, file, callback){
@@ -32,6 +34,7 @@ function fileFilter (req: any, file: any, cb: any) {
 export function uploadFile(app: Application){
   app.use(multer({storage: fileStorage, fileFilter: fileFilter}).fields([
     {name: 'postImage'},
-    {name: 'avatar', maxCount: 1}
+    {name: 'avatar', maxCount: 1},
+    {name: 'thumbnail', maxCount: 1}
   ]))
 }
