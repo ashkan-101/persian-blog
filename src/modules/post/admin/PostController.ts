@@ -28,6 +28,20 @@ export default class PostController {
     }
   }
 
+  public async deleteImage(req: Request, res: Response, next: NextFunction){
+    try {
+      const imageName = req.body.imageName
+
+      await this.service.deleteImage(imageName)
+
+      res.status(200).send({
+        msg: 'success'
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   public async newPost(req: Request, res: Response, next: NextFunction){
     try {
       
