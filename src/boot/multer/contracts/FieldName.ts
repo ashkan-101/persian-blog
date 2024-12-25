@@ -1,5 +1,5 @@
 enum FieldName {
-  GALLERY = 'gallery',
+  POSTIMAGE = 'postImage',
   AVATAR = 'avatar'
 }
 
