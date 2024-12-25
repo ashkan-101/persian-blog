@@ -8,6 +8,7 @@ import userClientRouter from "../modules/user/client/UserRouter";
 //admin
 import categoryAdminRouter from "../modules/category/admin/CategoryRouter";
 import subcategoryAdminRouter from "../modules/subcategory/admin/SubcategoryRouter";
+import postAdminRouter from "../modules/post/admin/PostRouter";
 
 
 export default class RouterService {
@@ -30,6 +31,7 @@ export default class RouterService {
     //admin
     this.router.addRouter('/admin-category', categoryAdminRouter)
     this.router.addRouter('/admin-subcategory', subcategoryAdminRouter)
+    this.router.addRouter('/admin-post', postAdminRouter)
   }
 
   public run(){
