@@ -16,4 +16,12 @@ export default class PostFactory {
   public async saveNewPost(params: Partial<IPostPG>){
     return await this.postRepository.create(params)
   }
+
+  public async findPostWithId(postId: string){
+    return await this.postRepository.findOne({id: postId})
+  }
+
+  public async deletePostInRepository(postId: string){
+    return await this.postRepository.deleteOne({id: postId})
+  }
 }

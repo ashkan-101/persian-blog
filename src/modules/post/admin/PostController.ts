@@ -74,4 +74,18 @@ export default class PostController {
       next(error)
     }
   }
+
+public async deletePost(req: Request, res: Response, next: NextFunction){
+    try {
+      const postId = req.params.id
+
+      await this.service.deletePost(postId)
+
+      res.status(200).send({
+        msg: 'success'
+      })
+    } catch (error) {
+      next(error)
+    }
+  } 
 }

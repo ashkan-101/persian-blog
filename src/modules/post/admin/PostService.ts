@@ -4,6 +4,7 @@ import { join } from 'path'
 import ServerException from "../../../exceptions/ServerException"
 import IPostPG from "../entity/contracts/IPost.PG"
 import compression from '../../../services/tumbnailCompressionService'
+import NotFoundException from "../../../exceptions/NotFoundException"
 
 
 export default class PostService {
@@ -21,13 +22,16 @@ export default class PostService {
     return newSlug
   }
 
-  public async deleteImage(imageName?: string, thumbnailName?: string){
+  public async deleteImage(imageName?: string, thumbnailName?: string, compressedThumbnail?: string){
     let result
     if(imageName){
       result = await deleteFile(join(process.cwd(), 'public', 'gallery', imageName))
     }
     if(thumbnailName){
       result = await deleteFile(join(process.cwd(), 'public', 'thumbnails', thumbnailName))
+    }
+    if(compressedThumbnail){
+      result = await deleteFile(join(process.cwd(), 'public', 'compressed-thumbnails', compressedThumbnail))
     }
     if(result === false){
       throw new ServerException('failed to delete file')
@@ -45,6 +49,21 @@ export default class PostService {
     }
 
     return await this.factory.saveNewPost(newParams)
+  }
+
+  public async deletePost(postId: string){
+    // validate and get post
+    const post = await this.factory.findPostWithId(postId)
+    if(!post){
+      throw new NotFoundException('post not Found!')
+    }
+    //delete thumbnail and gallery in public 
+    post.gallery.forEach(async (imageName) => {
+      await this.deleteImage(imageName)
+    })
+    await this.deleteImage(undefined, post.thumbnail, post.compressedThumbnail)
+    //delete post in repository
+    await this.factory.deletePostInRepository(postId)
   }
 
 }
