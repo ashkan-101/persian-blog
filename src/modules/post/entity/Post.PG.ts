@@ -1,15 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne, JoinColumn, OneToMany, ManyToMany } from "typeorm";
 import IPostPG from "./contracts/IPost.PG";
 import SubcategoryPG from "../../subcategory/entity/Subcategory.PG";
-import CommentPG from "../../comment/entity/Comment.PG";
-import UserPG from "../../user/entity/User.PG";
 
 @Entity('post')
 export default class PostPG extends BaseEntity implements IPostPG {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({type: 'varchar'})
+  @Column({type: 'varchar', default: null})
   author!: string;
 
   @Column({type: 'varchar'})
@@ -21,6 +19,9 @@ export default class PostPG extends BaseEntity implements IPostPG {
   @Column({type: 'varchar'})
   thumbnail!: string;
 
+  @Column({type: 'varchar'})
+  compressedThumbnail!: string;
+
   @Column({type: 'jsonb'})
   gallery!: string[];
 
@@ -29,13 +30,13 @@ export default class PostPG extends BaseEntity implements IPostPG {
 
   @ManyToOne(()=> SubcategoryPG, subcategory => subcategory.posts)
   @JoinColumn({name: 'subcategory'})
-  subcategory!: SubcategoryPG;
+  subcategory!: string;
 
-  @OneToMany(()=> CommentPG, comment => comment.post)
-  comments!: CommentPG[];
+  // @OneToMany(()=> CommentPG, comment => comment.post)
+  // comments!: CommentPG[];
 
-  @ManyToMany(()=> UserPG, user => user.favoritePosts)
-  favoriteBy!: UserPG[];
+  // @ManyToMany(()=> UserPG, user => user.favoritePosts)
+  // favoriteBy!: UserPG[];
 
   @Column({type: 'int', default: 0})
   views!: number;

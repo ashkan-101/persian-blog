@@ -17,7 +17,7 @@ export default class SubcategoryPG extends BaseEntity implements ISubcategoryPG 
   category!: string;
 
   @OneToMany(()=> PostPG, post => post.subcategory, {onDelete: 'CASCADE'})
-  posts!: PostPG[];
+  posts!: string[];
 
   @ManyToMany(()=> UserPG, user => user.favoriteSubcategories)
   folowingUsers!: string[]

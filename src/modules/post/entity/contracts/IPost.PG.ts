@@ -8,14 +8,15 @@ export default interface IPostPG {
   title: string
   body: string
   thumbnail: string
+  compressedThumbnail: string
   gallery: string[]
   slug: string
-  subcategory: ISubcategoryPG
+  subcategory: string
   views: number
   tags: string[]
   likes: string[]
-  comments: ICommentPG[]
-  favoriteBy: IUserPG[]
+  // comments: ICommentPG[]
+  // favoriteBy: IUserPG[]
   createdAt: Date
   updatedAt: Date
 }

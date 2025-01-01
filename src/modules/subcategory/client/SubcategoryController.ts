@@ -15,6 +15,7 @@ export default class SubcategoryController {
       const subcategories: ISubcategoryPG[] = await this.service.subcategoryList()
       res.status(200).send({
         msg: true,
+        userId: req.user?.id,
         subcategories
       })
     } catch (error) {

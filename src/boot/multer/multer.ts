@@ -10,7 +10,7 @@ const fileStorage = multer.diskStorage({
     }else if(file.fieldname === FieldName.POSTIMAGE){
       cb(null, join(process.cwd(), 'public', 'gallery'))
     }else if(file.fieldname === FieldName.THUMBNAIL){
-      cb(null, join(process.cwd(), 'public', 'thumbnail'))
+      cb(null, join(process.cwd(), 'public', 'thumbnails'))
     }
   },
   filename(req, file, callback){

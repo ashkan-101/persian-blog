@@ -19,8 +19,9 @@ export default class PostPGRepository implements IPostPGRepository {
   }
 
   public async create(params: Partial<IPostPG>): Promise<IPostPG> {
-    const user = PostPG.create({...params})
-    return await user.save()
+    const post = PostPG.create({...params})
+    console.log({post});
+    return await post.save()
   }
 
   public async updateOne(where: Partial<IPostPG>, params: Partial<IPostPG>): Promise<boolean> {

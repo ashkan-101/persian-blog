@@ -19,8 +19,8 @@ export default class SubcategoryPGRepository implements ISubcategoryPGRepository
     }
   
     public async create(params: Partial<ISubcategoryPG>): Promise<ISubcategoryPG> {
-      const user = SubcategoryPG.create({...params});
-      return await user.save();
+      const subcategory = SubcategoryPG.create({...params});
+      return await subcategory.save();
     }
   
     public async updateOne(where: Partial<ISubcategoryPG>, params: Partial<ISubcategoryPG>): Promise<boolean> {

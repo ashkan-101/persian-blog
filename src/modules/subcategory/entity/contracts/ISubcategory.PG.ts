@@ -4,7 +4,7 @@ export default interface ISubcategoryPG{
   id: string
   title: string
   category: string
-  posts: IPostPG[]
+  posts: string[]
   folowingUsers: string[]
   createdAt: Date
   updatedAt: Date
