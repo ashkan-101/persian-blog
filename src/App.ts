@@ -4,6 +4,7 @@ import RouterService from './router/RouterService'
 import postgresConnection from './Infrastructures/connections/postgreSQL'
 import Boot from './boot/Boot'
 import exceptionMiddlewares from './middlewares/exception/index'
+import { redisConnect } from './Infrastructures/connections/Redis'
 
 
 export default class App {
@@ -19,13 +20,14 @@ export default class App {
     this.boot = new Boot(this.app)
   }
 
-  public start(){
+  public async start(){
     this.boot.init()
     this.router.run()
     exceptionMiddlewares(this.app)
-    this.app.listen(this.port, () => {
-      console.log('Application is running ...');
-      postgresConnection()
+    this.app.listen(this.port, async () => {
+      console.log(`Application is running on port: ${process.env.APP_PORT}`);
+      await redisConnect()
+      await postgresConnection()
     })
   }
 }
