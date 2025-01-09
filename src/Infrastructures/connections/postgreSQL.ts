@@ -3,7 +3,6 @@ import CategoryPG from "../../modules/category/entity/Category.PG";
 import SubcategoryPG from "../../modules/subcategory/entity/Subcategory.PG";
 import CommentPG from "../../modules/comment/entity/Comment.PG";
 import PostPG from "../../modules/post/entity/Post.PG";
-import RegisterCode from "../../modules/registerCode/entity/RegisterCode";
 import UserPG from "../../modules/user/entity/User.PG";
 import { config } from "dotenv";
 config()
@@ -16,7 +15,7 @@ const dataSource: DataSource = new DataSource({
   password: process.env.PG_PASSWORD as string,
   database: 'persian-blog',
   synchronize: true,
-  entities: [CategoryPG, SubcategoryPG, CommentPG, PostPG, RegisterCode, UserPG]
+  entities: [CategoryPG, SubcategoryPG, CommentPG, PostPG, UserPG]
 })
 
 const postgresConnection = async () => {

@@ -2,6 +2,8 @@ import { FindOptionsWhere } from "typeorm";
 import IPostPG from "../entity/contracts/IPost.PG";
 import IPostPGRepository from "./contracts/IPost.PG.Repository";
 import PostPG from "../entity/Post.PG";
+import IPagination from "../../contracts/IPaginaton";
+import PostSorting from "../entity/contracts/PostSorting";
 
 export default class PostPGRepository implements IPostPGRepository {
   public async findOne(params: Partial<IPostPG>, relations?: string[]): Promise<IPostPG | null> {
@@ -13,14 +15,19 @@ export default class PostPGRepository implements IPostPGRepository {
     return await PostPG.findOne({where: { id }, relations})
   }
 
-  public async findMany(params: Partial<IPostPG>, relations?: string[]): Promise<IPostPG[]> {
+  public async findMany(params: Partial<IPostPG>, relations?: string[], pagination?: IPagination, sort?: PostSorting): Promise<IPostPG[]> {
     const whereClause: FindOptionsWhere<PostPG> = { ...params } as FindOptionsWhere<PostPG>
-    return await PostPG.find({where: whereClause, relations})
+    if(sort && sort === PostSorting.NEWEST){
+      return await PostPG.find({take: pagination?.take, skip: pagination?.skip, order: {createdAt: 'DESC'}, relations})
+    }
+    if(sort && sort === PostSorting.POPULAR){
+      return await PostPG.find({take: pagination?.take, skip: pagination?.skip, order: {views: 'DESC'}, relations})
+    }
+    return await PostPG.find({take: pagination?.take, skip: pagination?.skip, where: whereClause, relations})
   }
 
   public async create(params: Partial<IPostPG>): Promise<IPostPG> {
     const post = PostPG.create({...params})
-    console.log({post});
     return await post.save()
   }
 

@@ -75,7 +75,7 @@ export default class PostController {
     }
   }
 
-public async deletePost(req: Request, res: Response, next: NextFunction){
+  public async deletePost(req: Request, res: Response, next: NextFunction){
     try {
       const postId = req.params.id
 
@@ -87,5 +87,5 @@ public async deletePost(req: Request, res: Response, next: NextFunction){
     } catch (error) {
       next(error)
     }
-  } 
+  }
 }
