@@ -9,12 +9,13 @@ export default class AuthController {
     this.service = new AuthService()
   }
 
-  public async createNewCode(req: Request, res: Response, next: NextFunction){
+  public async createOtp(req: Request, res: Response, next: NextFunction){
     try {
-      const mobile: string = req.body.mobile as string
-      const code = await this.service.createNewCode(mobile)
+      const phoneNumber: string = req.body.mobile as string
+      const otp = await this.service.createOtp(phoneNumber)
+
       res.status(200).send({
-        code: code.code
+        otp
       })
     } catch (error) {
       next(error)
@@ -23,17 +24,15 @@ export default class AuthController {
 
   public async signin(req: Request, res: Response, next: NextFunction){
     try {
-      const mobile: string = req.body.mobile as string
-      const code: string = req.body.code as string
+      const phoneNumber: string = req.body.mobile as string
+      const otp: string = req.body.otp as string
 
-      const user = await this.service.signin(mobile, code)
+      await this.service.validateOtp(phoneNumber, otp)
+      const user = await this.service.getUser(phoneNumber)
 
       res.status(200).send({
-        msg: true,
-        token: sign({userId: user.id}),
-        userId: user.id
+        token: sign(user.id)
       })
-
     } catch (error) {
       next(error)
     }
