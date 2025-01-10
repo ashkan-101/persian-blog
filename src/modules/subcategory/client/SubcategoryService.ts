@@ -1,15 +1,15 @@
-import SubcategoryFactory from "./SubcategoryFactory"
+import SubcategoryRepositoryProvider from "./SubcategoryRepositoryProvider"
 
 
 export default class SubcategoryService{
-  private readonly factory: SubcategoryFactory
+  private readonly repositoryProvider: SubcategoryRepositoryProvider
 
   constructor(){
-    this.factory = new SubcategoryFactory()
+    this.repositoryProvider = new SubcategoryRepositoryProvider()
   }
 
   public async subcategoryList(){
-    const list = await this.factory.getAllSubcategories(['category'])
+    const list = await this.repositoryProvider.getAllSubcategories(['category'])
     return list
   }
 

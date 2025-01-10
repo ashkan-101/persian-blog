@@ -2,7 +2,7 @@ import IPostPG from "../entity/contracts/IPost.PG";
 import PostPGRepository from "../repositories/Post.PG.Repository";
 import IPostPGRepository from "../repositories/contracts/IPost.PG.Repository";
 
-export default class PostFactory {
+export default class PostRepositoryProvider {
   private readonly postRepository: IPostPGRepository
 
   constructor(){

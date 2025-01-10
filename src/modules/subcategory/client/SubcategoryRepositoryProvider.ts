@@ -1,8 +1,8 @@
 import ISubcategoryPGRepository from "../repositories/contracts/ISubcategory.PG.Repository";
-import SubcategoryPGRepository from "../../subcategory/repositories/Subcategory.PG.Repository";
+import SubcategoryPGRepository from "../repositories/Subcategory.PG.Repository";
 
 
-export default class CategoryFactory {
+export default class SubcategoryRepositoryProvider {
   private readonly subcategoryRepository: ISubcategoryPGRepository
 
   constructor(){

@@ -4,7 +4,7 @@ import UserPGRepository from "../repositories/User.PG.Repository";
 
 
 
-export default class UserFactory {
+export default class UserRepositoryProvider {
   private readonly userRepository: IUserPGRepository
 
   constructor(){

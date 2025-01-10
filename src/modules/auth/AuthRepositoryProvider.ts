@@ -2,7 +2,7 @@ import IUserPGRepository from "../user/repositories/contracts/IUser.PG.Repositor
 import UserPGRepository from "../user/repositories/User.PG.Repository"
 
 
-export default class AuthFactory {
+export default class AuthRepositoryProvider {
   private readonly userRepository: IUserPGRepository
 
   constructor(){

@@ -1,14 +1,16 @@
 import IPagination from "../../contracts/IPaginaton"
 import PostSorting from "../entity/contracts/PostSorting"
-import PostFactory from "./PostFactory"
+import PostRepositoryProvider from "./PostRepositoryProvider"
 import { collection } from "../services/TransformerPostList"
 import { transform } from '../services/TransformerPostDetails'
+import IPostPG from "../entity/contracts/IPost.PG"
+import NotFoundException from "../../../exceptions/NotFoundException"
 
 export default class PostService {
-  private readonly factory: PostFactory
+  private readonly repositoryProvider: PostRepositoryProvider
 
   constructor(){
-    this.factory = new PostFactory()
+    this.repositoryProvider = new PostRepositoryProvider()
   }
 
   public async getPosts(sorting: PostSorting, page: number){
@@ -17,7 +19,7 @@ export default class PostService {
       skip: (page - 1) * 20
     }
 
-    const getSortingPosts = await this.factory.getSortingPosts(pagination, sorting)
+    const getSortingPosts = await this.repositoryProvider.getSortingPosts(pagination, sorting)
     const transformPosts = await collection(getSortingPosts)
     return transformPosts
   }

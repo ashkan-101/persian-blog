@@ -1,4 +1,4 @@
-import PostFactory from "./PostFactory"
+import PostRepositoryProvider from "./PostRepositoryProvider"
 import { deleteFile } from "../../../services/deleteFileService"
 import { join } from 'path'
 import ServerException from "../../../exceptions/ServerException"
@@ -8,14 +8,14 @@ import NotFoundException from "../../../exceptions/NotFoundException"
 
 
 export default class PostService {
-  private readonly factory
+  private readonly repositoryProvider
 
   constructor(){
-    this.factory = new PostFactory()
+    this.repositoryProvider = new PostRepositoryProvider()
   }
   private async slugGenerator(title: string){
     const newSlug = title.replaceAll(' ', '-')+'-'+Math.random().toString(16).slice(3,9)
-    const result = await this.factory.findPostWithSlug(newSlug)
+    const result = await this.repositoryProvider.findPostWithSlug(newSlug)
     if(result){
       await this.slugGenerator(title)
     }
@@ -48,12 +48,12 @@ export default class PostService {
       compressedThumbnail: compressedThumbnail? compressedThumbnail: undefined
     }
 
-    return await this.factory.saveNewPost(newParams)
+    return await this.repositoryProvider.saveNewPost(newParams)
   }
 
   public async deletePost(postId: string){
     // validate and get post
-    const post = await this.factory.findPostWithId(postId)
+    const post = await this.repositoryProvider.findPostWithId(postId)
     if(!post){
       throw new NotFoundException('post not Found!')
     }
@@ -63,7 +63,7 @@ export default class PostService {
     })
     await this.deleteImage(undefined, post.thumbnail, post.compressedThumbnail)
     //delete post in repository
-    await this.factory.deletePostInRepository(postId)
+    await this.repositoryProvider.deletePostInRepository(postId)
   }
 
 }

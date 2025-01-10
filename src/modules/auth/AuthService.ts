@@ -1,5 +1,5 @@
 import ValidationException from "../../exceptions/ValidationException";
-import AuthFactory from "./AuthFactory";
+import AuthRepositoryProvider from "./AuthRepositoryProvider";
 import { randomInt } from "node:crypto";
 import { get, set, del } from '../../services/RedisService'
 import TooManyRequestsException from "../../exceptions/TooManyRequestsException";
@@ -7,10 +7,10 @@ import ServerException from "../../exceptions/ServerException";
 import { hashData, compareHash} from '../../services/HashService'
 
 export default class AuthService {
-  private readonly factory: AuthFactory
+  private readonly repositoryProvider: AuthRepositoryProvider
 
   constructor(){
-    this.factory = new AuthFactory()
+    this.repositoryProvider = new AuthRepositoryProvider()
   }
   private async generateNewOtpCode(){
     const otp = randomInt(14267, 92167).toString()
@@ -46,9 +46,9 @@ export default class AuthService {
   }
 
   public async getUser(mobile: string){
-    const user = await this.factory.getUserByMobile(mobile)
+    const user = await this.repositoryProvider.getUserByMobile(mobile)
     if(!user){
-      return await this.factory.saveUserInRepository(mobile)
+      return await this.repositoryProvider.saveUserInRepository(mobile)
     }
     return user
   }

@@ -1,15 +1,14 @@
-import CategoryFactory from "./CategoryFactory"
-
+import CategoryRepositoryProvider from "./CategoryRepositoryProvider"
 
 export default class CategoryService{
-  private readonly factory: CategoryFactory
+  private readonly repositoryProvider: CategoryRepositoryProvider
 
   constructor(){
-    this.factory = new CategoryFactory()
+    this.repositoryProvider = new CategoryRepositoryProvider()
   }
 
   public async categoryList(){
-    const list = await this.factory.getActiveCategories(['subcategories'])
+    const list = await this.repositoryProvider.getActiveCategories(['subcategories'])
     return list
   }
 
