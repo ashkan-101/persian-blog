@@ -13,11 +13,20 @@ export default class PostPG extends BaseEntity implements IPostPG {
   @Column({type: 'varchar'})
   title!: string;
 
+  @Column({type: 'varchar', length: 70})
+  metaTitle!: string;
+
+  @Column({type: 'varchar', length: 170})
+  metaDescription!: string;
+
   @Column({type: 'text'})
   body!: string;
 
   @Column({type: 'varchar'})
   thumbnail!: string;
+
+  @Column({type: 'varchar'})
+  thumbnailAltText!: string;
 
   @Column({type: 'varchar'})
   compressedThumbnail!: string;

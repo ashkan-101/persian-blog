@@ -6,8 +6,11 @@ export default interface IPostPG {
   id: string
   author: string
   title: string
+  metaTitle: string
+  metaDescription: string
   body: string
   thumbnail: string
+  thumbnailAltText: string
   compressedThumbnail: string
   gallery: string[]
   slug: string
