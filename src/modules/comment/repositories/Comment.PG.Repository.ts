@@ -19,8 +19,8 @@ export default class CommentPGRepository implements ICommentPGRepository {
     }
   
     public async create(params: Partial<ICommentPG>): Promise<ICommentPG> {
-      const user = CommentPG.create({...params})
-      return await user.save()
+      const comment = CommentPG.create({...params})
+      return await comment.save()
     }
   
     public async updateOne(where: Partial<ICommentPG>, params: Partial<ICommentPG>): Promise<boolean> {

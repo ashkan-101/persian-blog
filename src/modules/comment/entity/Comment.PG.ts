@@ -16,11 +16,14 @@ export default class CommentPG extends BaseEntity implements ICommentPG {
 
   @ManyToOne(()=> UserPG, user => user.comment)
   @JoinColumn({name: 'user'})
-  user!: UserPG;
+  user!: string;
   
   @ManyToOne(() => PostPG, post => post.comments)
   @JoinColumn({name: 'post'})
-  post!: PostPG;
+  post!: string;
+
+  @Column({type: 'jsonb', default: []})
+  likes!: string[];
 
   @CreateDateColumn()
   createdAt!: Date;
