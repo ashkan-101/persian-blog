@@ -18,4 +18,16 @@ export default class PostRepositoryProvider {
   public async getPostBySlug(slug: string){
     return await this.postRepository.findOne({slug})
   }
+
+  public async getPostById(postId: string){
+    return await this.postRepository.findById(postId)
+  }
+
+  public async updatePostViews(postId: string, lastViewsCount: number){
+    return await this.postRepository.updateOne({id: postId}, {views: lastViewsCount + 1})
+  }
+
+  public async updatePostLikes(postId: string, likesList: string[]){
+    return await this.postRepository.updateOne({id: postId}, {likes: likesList})
+  }
 }
