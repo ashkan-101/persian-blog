@@ -14,4 +14,8 @@ export default class PostRepositoryProvider {
   public async getSortingPosts(pagination: IPagination, sort: PostSorting, relations?: string[]){
     return await this.postRepository.findMany({}, relations, pagination, sort)
   }
+
+  public async getPostBySlug(slug: string){
+    return await this.postRepository.findOne({slug})
+  }
 }

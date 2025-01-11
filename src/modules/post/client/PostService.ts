@@ -23,4 +23,13 @@ export default class PostService {
     const transformPosts = await collection(getSortingPosts)
     return transformPosts
   }
+
+  public async postDetailsBySlug(slug: string){
+    const resultQuery = await this.repositoryProvider.getPostBySlug(slug)
+    if(!resultQuery){
+      throw new NotFoundException('post Not Found!')
+    }
+    const postTransform = await transform(resultQuery)
+    return postTransform
+  }
 }
