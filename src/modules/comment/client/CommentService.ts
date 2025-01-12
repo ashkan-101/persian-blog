@@ -14,17 +14,22 @@ export default class CommentService {
     this.postRepositoryProvider = new PostRepositoryProvider()
   }
 
-  public async newCommentService(commentParams: Partial<ICommentPG>){
-    if(!validateUUID(commentParams.post)){
+  private async validateAndGetPostService(postId: string){
+    if(!validateUUID(postId)){
       throw new ValidationException('Please enter the ID format correctly')
     }
-    
-    const validatePost = await this.postRepositoryProvider.getPostById(commentParams.post as string)
 
-    if(!validatePost){
-      throw new NotFoundException('post Not Found')
+    const post = await this.postRepositoryProvider.getPostById(postId)
+
+    if(!post){
+      throw new NotFoundException('Not Found any post with this ID')
     }
 
-    return await this.commentRepositoryProvider.saveNewComment(commentParams)
+    return post
+  }
+
+  public async newCommentService(commentParams: Partial<ICommentPG>, postId: string){
+    const post = await this.validateAndGetPostService(postId)
+    return await this.commentRepositoryProvider.saveNewComment({ ...commentParams, post })
   }
 }

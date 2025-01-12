@@ -11,20 +11,19 @@ export default class CommentController {
 
   public async newCommentController(req: Request, res: Response, next: NextFunction){
     try {
+      const postId: string = req.params.postId as string
       const newCommentParams: Partial<ICommentPG> = {
         title: req.body.title,
-        body: req.body.body,
-        user: req.user?.id as string,
-        post: req.params.postId
+        description: req.body.description,
+        user: req.user,
       }
-      
-      const newComment = await this.service.newCommentService(newCommentParams)
+
+      const newComment = await this.service.newCommentService(newCommentParams, postId)
 
       res.status(201).send({
         newComment
       })
     } catch (error) {
-      console.log(error);
       next(error)
     }
   }
