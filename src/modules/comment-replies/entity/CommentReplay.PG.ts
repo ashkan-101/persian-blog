@@ -14,7 +14,7 @@ export default class CommentReplayPG extends BaseEntity implements ICommentRepla
   title!: string;
 
   @Column({type: 'varchar', length: 250})
-  body!: string;
+  description!: string;
 
   @ManyToOne(() => UserPG, user => user.commentReplies)
   @JoinColumn({name: 'user'})
