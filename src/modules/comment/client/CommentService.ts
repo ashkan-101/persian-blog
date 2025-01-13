@@ -32,4 +32,16 @@ export default class CommentService {
     const post = await this.validateAndGetPostService(postId)
     return await this.commentRepositoryProvider.saveNewComment({ ...commentParams, post })
   }
+
+  public async deleteCommentService(commentId: string, userId: string){
+    if(!validateUUID(commentId)){
+      throw new ValidationException('Please enter the ID format correctly')
+    }
+    
+    const deleteResult = await this.commentRepositoryProvider.deleteComment(commentId, userId)
+
+    if(!deleteResult){
+      throw new NotFoundException('not Found any comment for delete with this information')
+    }
+  }
 }
