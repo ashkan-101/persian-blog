@@ -1,4 +1,4 @@
-import ICommentReplayPG from "../../../comment-replies/entity/contracts/ICommentReplay.PG"
+import ICommentReplayPG from "../../../comment-replies/entity/contracts/ICommentReply.PG"
 import IPostPG from "../../../post/entity/contracts/IPost.PG"
 import IUserPG from "../../../user/entity/contracts/IUser.PG"
 

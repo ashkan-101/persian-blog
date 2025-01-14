@@ -2,9 +2,9 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import ICommentPG from "./contracts/IComment.PG";
 import UserPG from "../../user/entity/User.PG";
 import PostPG from "../../post/entity/Post.PG";
-import CommentReplayPG from "../../comment-replies/entity/CommentReplay.PG";
+import CommentReplayPG from "../../comment-replies/entity/CommentReply.PG";
 import IPostPG from "../../post/entity/contracts/IPost.PG";
-import ICommentReplayPG from "../../comment-replies/entity/contracts/ICommentReplay.PG";
+import ICommentReplayPG from "../../comment-replies/entity/contracts/ICommentReply.PG";
 import IUserPG from "../../user/entity/contracts/IUser.PG";
 
 @Entity('comment')
@@ -26,7 +26,7 @@ export default class CommentPG extends BaseEntity implements ICommentPG {
   @JoinColumn({name: 'post'})
   post!: IPostPG;
 
-  @OneToMany(() => CommentReplayPG, commentReplay => commentReplay.parentComment, {onDelete: 'CASCADE'})
+  @OneToMany(() => CommentReplayPG, commentReplay => commentReplay.parentComment)
   replies!: ICommentReplayPG[];
 
   @Column({type: 'jsonb', default: []})

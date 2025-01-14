@@ -2,16 +2,14 @@ import NotFoundException from '../../../exceptions/NotFoundException'
 import ValidationException from '../../../exceptions/ValidationException'
 import PostRepositoryProvider from '../../post/client/PostRepositoryProvider'
 import ICommentPG from '../entity/contracts/IComment.PG'
-import CommentRepositoryProvider from './CommentRepositoryProvider'
+import CommentFactory from './CommentFactory'
 import { validate as validateUUID } from 'uuid'
 
 export default class CommentService {
-  private readonly commentRepositoryProvider: CommentRepositoryProvider
-  private readonly postRepositoryProvider: PostRepositoryProvider
+  private readonly commentFactory: CommentFactory
 
   constructor(){
-    this.commentRepositoryProvider = new CommentRepositoryProvider()
-    this.postRepositoryProvider = new PostRepositoryProvider()
+    this.commentFactory = new CommentFactory()
   }
 
   private async validateAndGetPostService(postId: string){
@@ -19,7 +17,7 @@ export default class CommentService {
       throw new ValidationException('Please enter the ID format correctly')
     }
 
-    const post = await this.postRepositoryProvider.getPostById(postId)
+    const post = await this.commentFactory.getPostById(postId)
 
     if(!post){
       throw new NotFoundException('Not Found any post with this ID')
@@ -30,7 +28,7 @@ export default class CommentService {
 
   public async newCommentService(commentParams: Partial<ICommentPG>, postId: string){
     const post = await this.validateAndGetPostService(postId)
-    return await this.commentRepositoryProvider.saveNewComment({ ...commentParams, post })
+    return await this.commentFactory.saveNewComment({ ...commentParams, post })
   }
 
   public async deleteCommentService(commentId: string, userId: string){
@@ -38,7 +36,7 @@ export default class CommentService {
       throw new ValidationException('Please enter the ID format correctly')
     }
     
-    const deleteResult = await this.commentRepositoryProvider.deleteComment(commentId, userId)
+    const deleteResult = await this.commentFactory.deleteComment(commentId, userId)
 
     if(!deleteResult){
       throw new NotFoundException('not Found any comment for delete with this information')
