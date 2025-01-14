@@ -18,11 +18,11 @@ export default class CommentPG extends BaseEntity implements ICommentPG {
   @Column({type: 'varchar', length: 250, nullable: false})
   description!: string;
 
-  @ManyToOne(()=> UserPG, user => user.comment)
+  @ManyToOne(()=> UserPG, user => user.comment, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'user'})
   user!: IUserPG;
   
-  @ManyToOne(() => PostPG, post => post.comments)
+  @ManyToOne(() => PostPG, post => post.comments, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'post'})
   post!: IPostPG;
 

@@ -1,5 +1,5 @@
 import IRepository from "../../../contracts/IRepository";
-import ICommentReplayPG from "../../entity/contracts/ICommentReplay.PG";
+import ICommentReplayPG from "../../entity/contracts/ICommentReply.PG";
 
 
 export default interface ICommentRepliesPGRepository extends IRepository<ICommentReplayPG> {}

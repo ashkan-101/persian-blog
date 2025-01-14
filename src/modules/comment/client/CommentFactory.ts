@@ -5,7 +5,7 @@ import ICommentPG from "../entity/contracts/IComment.PG";
 import CommentPGRepository from "../repositories/Comment.PG.Repository";
 import ICommentPGRepository from "../repositories/contracts/IComment.PG.Repository";
 
-export default class CommentRepositoryProvider {
+export default class CommentFactory {
   private readonly commentRepository: ICommentPGRepository
   private readonly postRepository: IPostPGRepository
 

@@ -1,6 +1,5 @@
 import NotFoundException from '../../../exceptions/NotFoundException'
 import ValidationException from '../../../exceptions/ValidationException'
-import PostRepositoryProvider from '../../post/client/PostRepositoryProvider'
 import ICommentPG from '../entity/contracts/IComment.PG'
 import CommentFactory from './CommentFactory'
 import { validate as validateUUID } from 'uuid'

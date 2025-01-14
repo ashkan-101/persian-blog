@@ -1,5 +1,5 @@
 import { Column, PrimaryGeneratedColumn, Entity, CreateDateColumn, UpdateDateColumn, ManyToOne, BaseEntity, JoinColumn } from "typeorm";
-import ICommentReplayPG from "./contracts/ICommentReplay.PG";
+import ICommentReplayPG from "./contracts/ICommentReply.PG";
 import CommentPG from "../../comment/entity/Comment.PG";
 import UserPG from "../../user/entity/User.PG";
 import IUserPG from "../../user/entity/contracts/IUser.PG";
@@ -10,21 +10,21 @@ export default class CommentReplayPG extends BaseEntity implements ICommentRepla
   @PrimaryGeneratedColumn('uuid')
   id!: string;
   
-  @Column({type: 'varchar'})
+  @Column({type: 'varchar', nullable: false})
   title!: string;
 
-  @Column({type: 'varchar', length: 250})
+  @Column({type: 'varchar', length: 250, nullable: false})
   description!: string;
 
-  @ManyToOne(() => UserPG, user => user.commentReplies)
+  @ManyToOne(() => UserPG, user => user.commentReplies, {nullable: false, onDelete: 'CASCADE'})
   @JoinColumn({name: 'user'})
   user!: IUserPG;
 
-  @ManyToOne(() => CommentPG, commentPG => commentPG.replies)
+  @ManyToOne(() => CommentPG, commentPG => commentPG.replies, {onDelete: 'CASCADE'})
   @JoinColumn({name: 'parentComment'})
   parentComment!: ICommentPG;
 
-  @Column({type: 'jsonb'})
+  @Column({type: 'jsonb', default: []})
   likes!: string[];
 
   @CreateDateColumn()

@@ -1,7 +1,7 @@
 import ICommentReplaiesPGRepository from "./contracts/ICommentReplies.PG.Repository";
 import { FindOptionsWhere } from "typeorm";
-import ICommentReplayPG from "../entity/contracts/ICommentReplay.PG";
-import CommentReplayPG from "../entity/CommentReplay.PG";
+import ICommentReplayPG from "../entity/contracts/ICommentReply.PG";
+import CommentReplayPG from "../entity/CommentReply.PG";
 
 
 export default class CommentRepliesPGRepository implements ICommentReplaiesPGRepository {
