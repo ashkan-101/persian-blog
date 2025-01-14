@@ -1,8 +1,8 @@
-import bodyParser from "body-parser";
-import { Application, static as expressStatic } from "express";
 import cors from 'cors'
-import { uploadFile } from "./multer/multer";
 import { join } from "path";
+import bodyParser from "body-parser";
+import { uploadFile } from "./multer/multer";
+import { Application, static as expressStatic } from "express";
 
 export default class Boot {
   private readonly app: Application
