@@ -9,10 +9,10 @@ export default class AuthController {
     this.service = new AuthService()
   }
 
-  public async createOtp(req: Request, res: Response, next: NextFunction){
+  public async createOtpController(req: Request, res: Response, next: NextFunction){
     try {
       const phoneNumber: string = req.body.mobile as string
-      const otp = await this.service.createOtp(phoneNumber)
+      const otp = await this.service.createOtpService(phoneNumber)
 
       res.status(200).send({
         otp
@@ -22,13 +22,13 @@ export default class AuthController {
     }
   }
 
-  public async signin(req: Request, res: Response, next: NextFunction){
+  public async signinController(req: Request, res: Response, next: NextFunction){
     try {
       const phoneNumber: string = req.body.mobile as string
       const otp: string = req.body.otp as string
 
-      await this.service.validateOtp(phoneNumber, otp)
-      const user = await this.service.getUser(phoneNumber)
+      await this.service.validateOtpService(phoneNumber, otp)
+      const user = await this.service.getUserService(phoneNumber)
 
       res.status(200).send({
         token: sign(user.id)

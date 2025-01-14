@@ -1,23 +1,24 @@
-import ValidationException from "../../exceptions/ValidationException";
-import AuthRepositoryProvider from "./AuthRepositoryProvider";
-import { randomInt } from "node:crypto";
-import { get, set, del } from '../../services/RedisService'
 import TooManyRequestsException from "../../exceptions/TooManyRequestsException";
+import ValidationException from "../../exceptions/ValidationException";
 import ServerException from "../../exceptions/ServerException";
 import { hashData, compareHash} from '../../services/HashService'
+import { get, set, del } from '../../services/RedisService'
+import AuthFactory from "./AuthFactory";
+import { randomInt } from "node:crypto";
 
 export default class AuthService {
-  private readonly repositoryProvider: AuthRepositoryProvider
+  private readonly authFactory: AuthFactory
 
   constructor(){
-    this.repositoryProvider = new AuthRepositoryProvider()
+    this.authFactory = new AuthFactory()
   }
+
   private async generateNewOtpCode(){
     const otp = randomInt(14267, 92167).toString()
     return otp
   }
 
-  public async createOtp(mobile: string){
+  public async createOtpService(mobile: string){
     const validateOtp = await get(mobile)
     if(validateOtp){
       throw new TooManyRequestsException('too many requests')
@@ -34,7 +35,7 @@ export default class AuthService {
     return newOtp
   }
 
-  public async validateOtp(mobile: string, otp: string){
+  public async validateOtpService(mobile: string, otp: string){
     const getOtp = await get(mobile)
     if(!getOtp){
       throw new ValidationException('wrong Otp')
@@ -45,12 +46,11 @@ export default class AuthService {
     }
   }
 
-  public async getUser(mobile: string){
-    const user = await this.repositoryProvider.getUserByMobile(mobile)
+  public async getUserService(mobile: string){
+    const user = await this.authFactory.getUserByMobile(mobile)
     if(!user){
-      return await this.repositoryProvider.saveUserInRepository(mobile)
+      return await this.authFactory.saveUserInRepository(mobile)
     }
     return user
   }
-
 }
