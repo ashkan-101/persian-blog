@@ -1,8 +1,10 @@
+import IPagination from "../../contracts/IPaginaton";
 import CategoryStatus from "../entity/contracts/CategoryStatus";
+import ICategoryPG from "../entity/contracts/ICategory.PG";
 import CategoryPGRepository from "../repositories/Category.PG.Repository";
 import ICategoryPGRepository from "../repositories/contracts/ICategory.PG.Repository";
 
-export default class CategoryRepositoryProvider {
+export default class CategoryFactory {
   private readonly categoryRepository: ICategoryPGRepository
 
   constructor(){
@@ -17,16 +19,15 @@ export default class CategoryRepositoryProvider {
     return await this.categoryRepository.findOne({title: categoryTitle})
   }
 
-  public async saveUpdateCategory(categoryId: string ,categoryTitle?: string, categoryStatus?: CategoryStatus){
-    return await this.categoryRepository.updateOne({id: categoryId}, {title: categoryTitle, status: categoryStatus})
+  public async saveUpdateCategory(categoryId: string, categoryParams: Partial<ICategoryPG>){
+    return await this.categoryRepository.updateOne({id: categoryId}, categoryParams)
   }
 
   public async deleteCategoryWithId(categoryId: string){
     return await this.categoryRepository.deleteOne({id: categoryId})
   }
 
-  public async getAllCategories(relations?: string[]){
-    return await this.categoryRepository.findMany({}, relations)
+  public async getAllCategories(pagination: IPagination, relations?: string[]){
+    return await this.categoryRepository.findMany({}, relations, pagination)
   }
-
 }

@@ -11,14 +11,13 @@ export default class CategoryController {
     this.service = new CategoryService()
   }
 
-  public async newCategory(req: Request, res: Response, next: NextFunction){
+  public async newCategoryController(req: Request, res: Response, next: NextFunction){
     try {
       const categoryTitle: string = req.body.categoryTitle
 
-      const category: ICategoryPG = await this.service.newCategory(categoryTitle)
+      const category: ICategoryPG = await this.service.newCategoryService(categoryTitle)
 
       res.status(201).send({
-        msg: true,
         category
       })
 
@@ -27,14 +26,16 @@ export default class CategoryController {
     }
   }
 
-  public async editCategory(req: Request, res: Response, next: NextFunction){
+  public async editCategoryController(req: Request, res: Response, next: NextFunction){
     try {
       const categoryId: string = req.params.id
-      const categoryTitle: string = req.body.categoryTitle
-      const categoryStatus: CategoryStatus = req.body.categoryStatus
-      if(categoryTitle || categoryStatus){
-        await this.service.editCategory(categoryId ,categoryTitle, categoryStatus)
-      } 
+      const categoryParams: Partial<ICategoryPG> = {
+        title: req.body.categoryTitle,
+        status: req.body.categoryStatus
+      }
+
+      await this.service.editCategoryService(categoryId, categoryParams)
+
       res.status(200).send({
         msg: true
       })
@@ -43,7 +44,7 @@ export default class CategoryController {
     }
   }
 
-  public async deleteCategory(req: Request, res: Response, next: NextFunction){
+  public async deleteCategoryController(req: Request, res: Response, next: NextFunction){
     try {
       const categoryId: string = req.params.id
 
@@ -57,15 +58,16 @@ export default class CategoryController {
     }
   }
 
-  public async getCategories(req: Request, res: Response, next: NextFunction){
+  public async getAllCategoriesController(req: Request, res: Response, next: NextFunction){
     try {
-      const categories: ICategoryPG[] = await this.service.getCategories()
+      const page: number = req.query.page ? +req.query.page : 1
+
+      const categories: ICategoryPG[] = await this.service.getCategoriesService(page)
+
       res.status(200).send({
-        msg: true,
         categories
       })
     } catch (error) {
-      console.log(error);
       next(error)
     }
   }

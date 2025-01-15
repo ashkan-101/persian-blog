@@ -10,11 +10,13 @@ export default class CategoryController {
     this.service = new CategoryService()
   }
 
-  public async categoryList(req: Request, res: Response, next: NextFunction){
+  public async getAllCategoriesController(req: Request, res: Response, next: NextFunction){
     try {
-      const categories: ICategoryPG[] = await this.service.categoryList()
+      const page: number = req.query.page ? +req.query.page : 1
+
+      const categories = await this.service.getAllCategoriesService(page)
+      
       res.status(200).send({
-        msg: true,
         categories
       })
     } catch (error) {

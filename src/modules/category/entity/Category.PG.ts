@@ -2,6 +2,7 @@ import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Ent
 import ICategoryPG from "./contracts/ICategory.PG";
 import CategoryStatus from "./contracts/CategoryStatus";
 import SubcategoryPG from "../../subcategory/entity/Subcategory.PG";
+import ISubcategoryPG from "../../subcategory/entity/contracts/ISubcategory.PG";
 
 @Entity('category')
 export default class CategoryPG extends BaseEntity implements ICategoryPG {
@@ -11,11 +12,11 @@ export default class CategoryPG extends BaseEntity implements ICategoryPG {
   @Column({type: 'varchar', nullable: false})
   title!: string;
 
-  @Column({type: 'varchar', enum: CategoryStatus, default: CategoryStatus.ACTIVE})
+  @Column({type: 'enum', enum: CategoryStatus, default: CategoryStatus.ACTIVE})
   status!: CategoryStatus;
 
-  @OneToMany(()=> SubcategoryPG, subcategoryPG => subcategoryPG.category, {onDelete: 'CASCADE'})
-  subcategories!: string[];
+  @OneToMany(()=> SubcategoryPG, subcategoryPG => subcategoryPG.category)
+  subcategories!: ISubcategoryPG[];
 
   @CreateDateColumn()
   createdAt!: Date;
