@@ -1,3 +1,5 @@
+import IPagination from "../../contracts/IPaginaton";
+import IPostPG from "../../post/entity/contracts/IPost.PG";
 import IPostPGRepository from "../../post/repositories/contracts/IPost.PG.Repository";
 import PostPGRepository from "../../post/repositories/Post.PG.Repository";
 import IUserPG from "../../user/entity/contracts/IUser.PG";
@@ -28,5 +30,9 @@ export default class CommentFactory {
 
   public async getPostById(postId: string){
     return await this.postRepository.findById(postId)
+  }
+
+  public async getCommentsWithPostId(postId: string, relations: string[], pagination: IPagination){
+    return await this.commentRepository.findMany({post: {id: postId} as IPostPG}, relations, pagination)
   }
 }

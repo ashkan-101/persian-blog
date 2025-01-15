@@ -2,6 +2,7 @@ import { FindOptionsWhere } from "typeorm";
 import ICommentPGRepository from "./contracts/IComment.PG.Repository";
 import ICommentPG from "../entity/contracts/IComment.PG";
 import CommentPG from "../entity/Comment.PG";
+import IPagination from "../../contracts/IPaginaton";
 
 export default class CommentPGRepository implements ICommentPGRepository {
     public async findOne(params: Partial<ICommentPG>, relations?: string[]): Promise<ICommentPG | null> {
@@ -13,9 +14,15 @@ export default class CommentPGRepository implements ICommentPGRepository {
       return await CommentPG.findOne({where: { id }, relations})
     }
   
-    public async findMany(params: Partial<ICommentPG>, relations?: string[]): Promise<ICommentPG[]> {
+    public async findMany(params: Partial<ICommentPG>, relations?: string[], pagination?: IPagination): Promise<ICommentPG[]> {
       const whereClause: FindOptionsWhere<CommentPG> = { ...params } as FindOptionsWhere<CommentPG>
-      return await CommentPG.find({where: whereClause, relations})
+      return await CommentPG.find({
+        where: whereClause,
+        order: {createdAt: 'DESC'},
+        relations,
+        take: pagination?.take,
+        skip: pagination?.skip
+      })
     }
   
     public async create(params: Partial<ICommentPG>): Promise<ICommentPG> {

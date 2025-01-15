@@ -3,10 +3,10 @@ import CommentService from './CommentService'
 import { Request, Response, NextFunction } from 'express'
 
 export default class CommentController {
-  private readonly service: CommentService
+  private readonly commentService: CommentService
 
   constructor(){
-    this.service = new CommentService()
+    this.commentService = new CommentService()
   }
 
   public async newCommentController(req: Request, res: Response, next: NextFunction){
@@ -18,7 +18,7 @@ export default class CommentController {
         user: req.user,
       }
 
-      const newComment = await this.service.newCommentService(newCommentParams, postId)
+      const newComment = await this.commentService.newCommentService(newCommentParams, postId)
 
       res.status(201).send({
         newComment
@@ -33,10 +33,24 @@ export default class CommentController {
       const commentId: string = req.params.id as string
       const userId: string = req.user?.id as string
 
-      await this.service.deleteCommentService(commentId, userId)
+      await this.commentService.deleteCommentService(commentId, userId)
 
       res.status(200).send({
         msg: true
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  public async getCommentsController(req: Request, res: Response, next: NextFunction){
+    try {
+      const postId: string = req.params.postId
+      const page: number = req.query.page ? +req.query.page : 1
+
+      const comments = await this.commentService.getCommentsService(postId, page)
+      res.status(200).send({
+        comments
       })
     } catch (error) {
       next(error)

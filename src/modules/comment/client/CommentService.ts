@@ -1,5 +1,6 @@
 import NotFoundException from '../../../exceptions/NotFoundException'
 import ValidationException from '../../../exceptions/ValidationException'
+import IPagination from '../../contracts/IPaginaton'
 import ICommentPG from '../entity/contracts/IComment.PG'
 import CommentFactory from './CommentFactory'
 import { validate as validateUUID } from 'uuid'
@@ -40,5 +41,19 @@ export default class CommentService {
     if(!deleteResult){
       throw new NotFoundException('not Found any comment for delete with this information')
     }
+  }
+
+  public async getCommentsService(postId: string, page: number){
+    if(!validateUUID(postId)){
+      throw new ValidationException('Please enter the ID format correctly')
+    }
+
+    const pagination: IPagination = {
+      take: 5,
+      skip: (page - 1) * 5
+    }
+
+    const comments = await this.commentFactory.getCommentsWithPostId(postId, ['replies.user', 'user'], pagination)
+    return comments
   }
 }
