@@ -50,7 +50,23 @@ export default class CommentController {
 
       const comments = await this.commentService.getCommentsService(postId, page)
       res.status(200).send({
-        comments
+        comments,
+        userId: req.user?.id
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  public async commentLikeController(req: Request, res: Response, next: NextFunction){
+    try {
+      const commentId: string = req.params.id
+      const userId = req.user?.id as string
+
+      const likeResult = await this.commentService.commentLikeService(commentId, userId)
+
+      res.status(200).send({
+        likeResult
       })
     } catch (error) {
       next(error)

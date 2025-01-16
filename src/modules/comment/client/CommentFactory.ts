@@ -35,4 +35,8 @@ export default class CommentFactory {
   public async getCommentsWithPostId(postId: string, relations: string[], pagination: IPagination){
     return await this.commentRepository.findMany({post: {id: postId} as IPostPG}, relations, pagination)
   }
+
+  public async updateCommentLikes(commentId: string, likes: string[]){
+    return await this.commentRepository.updateOne({id: commentId}, {likes})
+  }
 }

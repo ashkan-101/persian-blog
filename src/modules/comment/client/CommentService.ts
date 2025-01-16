@@ -1,4 +1,5 @@
 import NotFoundException from '../../../exceptions/NotFoundException'
+import ServerException from '../../../exceptions/ServerException'
 import ValidationException from '../../../exceptions/ValidationException'
 import IPagination from '../../contracts/IPaginaton'
 import ICommentPG from '../entity/contracts/IComment.PG'
@@ -24,6 +25,19 @@ export default class CommentService {
     }
 
     return post
+  }
+  private async validateAndGetCommentService(commentId: string){
+    if(!validateUUID(commentId)){
+      throw new ValidationException('Please enter the ID format correctly')
+    }
+
+    const comment = await this.commentFactory.getCommentById(commentId)
+
+    if(!comment){
+      throw new NotFoundException('not found any comment with this id')
+    }
+
+    return comment
   }
 
   public async newCommentService(commentParams: Partial<ICommentPG>, postId: string){
@@ -55,5 +69,28 @@ export default class CommentService {
 
     const comments = await this.commentFactory.getCommentsWithPostId(postId, ['replies.user', 'user'], pagination)
     return comments
+  }
+
+  public async commentLikeService(commentId: string, userId: string){
+    const comment = await this.validateAndGetCommentService(commentId)
+    const likes = comment.likes
+    const userIndex = likes.indexOf(userId)
+
+    if(userIndex > -1){
+      likes.splice(userIndex, 1)
+      const result = await this.commentFactory.updateCommentLikes(commentId, likes)
+      if(!result){
+        throw new ServerException('Unable to update comment likes')
+      }
+      return 'dislike'
+    }
+    if(userIndex < 0){
+      likes.push(userId)
+      const result = await this.commentFactory.updateCommentLikes(commentId, likes)
+      if(!result){
+        throw new ServerException('Unable to update comment likes')
+      }
+      return 'like'
+    }
   }
 }
