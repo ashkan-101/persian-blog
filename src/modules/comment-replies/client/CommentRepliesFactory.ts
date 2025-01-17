@@ -25,4 +25,12 @@ export default class CommentRepliesFactory {
   public async getCommentById(commentId: string){
     return await this.commentRepository.findById(commentId)
   }
+
+  public async getReplyById(replyId: string){
+    return await this.commentRepliesRepository.findById(replyId)
+  }
+
+  public async updateReplyLikesById(replyId: string, likes: string[]){
+    return await this.commentRepliesRepository.updateOne({id: replyId}, {likes})
+  }
 } 

@@ -5,7 +5,7 @@ import UserPG from "../../user/entity/User.PG";
 import IUserPG from "../../user/entity/contracts/IUser.PG";
 import ICommentPG from "../../comment/entity/contracts/IComment.PG";
 
-@Entity('comment-replaies')
+@Entity('comment-replies')
 export default class CommentReplayPG extends BaseEntity implements ICommentReplayPG {
   @PrimaryGeneratedColumn('uuid')
   id!: string;

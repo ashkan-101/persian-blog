@@ -43,4 +43,19 @@ export default class CommentRepliesController {
       next(error)
     }
   }
+
+  public async replyLikeController(req: Request, res: Response, next: NextFunction){
+    try {
+      const replyId: string = req.params.id
+      const userId: string = req.user?.id as string
+
+      const likeResult = await this.service.replyLikeService(replyId, userId)
+
+      res.status(200).send({
+        likeResult
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
