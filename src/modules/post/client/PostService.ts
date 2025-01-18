@@ -79,4 +79,17 @@ export default class PostService {
       return 'like'
     }
   }
+
+  public async getSubcategoryPosts(subId: string, page: number, sorting?: PostSorting){
+    if(!validateUUID(subId)){
+      throw new ValidationException('Please enter the ID format correctly')
+    }
+
+    const pagination: IPagination = {
+      take: 20,
+      skip: (page - 1) * 20
+    }
+
+    return await this.postFactory.getPostsWithSubId(subId, [], pagination, sorting)
+  }
 }

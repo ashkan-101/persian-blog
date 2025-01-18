@@ -9,5 +9,6 @@ postClientRouter.get('/all', controller.getPostsController.bind(controller)) //g
 postClientRouter.get('/:slug', auth, controller.postDetailsController.bind(controller))
 postClientRouter.patch('/add-views/:id', auth, controller.postViewsController.bind(controller))
 postClientRouter.patch('/like/:id', auth, controller.postLikeController.bind(controller))
+postClientRouter.get('/subcategory/:subId', auth, controller.getSubcategoryPosts.bind(controller)) //get page and sorting in query
 
 export default postClientRouter

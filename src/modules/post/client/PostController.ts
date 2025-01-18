@@ -66,4 +66,20 @@ export default class PostController {
       next(error)
     }
   }
+
+  public async getSubcategoryPosts(req: Request, res: Response, next: NextFunction){
+    try {
+      const subId: string = req.params.subId
+      const page: number = req.query.page ? +req.query.page : 1
+      const sorting: PostSorting | undefined = req.query.sorting ? req.query.sorting as PostSorting : undefined
+
+      const posts = await this.service.getSubcategoryPosts(subId, page, sorting)
+      
+      res.status(200).send({
+        posts
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

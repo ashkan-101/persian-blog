@@ -1,4 +1,5 @@
 import IPagination from "../../contracts/IPaginaton";
+import ISubcategoryPG from "../../subcategory/entity/contracts/ISubcategory.PG";
 import PostSorting from "../entity/contracts/PostSorting";
 import IPostPGRepository from "../repositories/contracts/IPost.PG.Repository";
 import PostPGRepository from "../repositories/Post.PG.Repository";
@@ -29,5 +30,14 @@ export default class PostFactory {
 
   public async updatePostLikes(postId: string, likesList: string[]){
     return await this.postRepository.updateOne({id: postId}, {likes: likesList})
+  }
+
+  public async getPostsWithSubId(subId: string, relations?: string[], pageination?: IPagination, sorting?: PostSorting){
+    return await this.postRepository.findMany(
+      {subcategory: {id: subId} as ISubcategoryPG},
+      relations,
+      pageination,
+      sorting
+    )
   }
 }
