@@ -17,7 +17,7 @@ export default class PostService {
   constructor(){
     this.postFactory = new PostFactory()
   }
-  
+    //-----------------------------------private methods
   private async slugGeneratorService(title: string){
     const newSlug = title.replaceAll(' ', '-')+'-'+Math.random().toString(16).slice(3,9)
     const result = await this.postFactory.findPostWithSlug(newSlug)
@@ -26,6 +26,7 @@ export default class PostService {
     }
     return newSlug
   }
+
   private async validateAndGetSubcategory(subcategoryId: string){
     if(!validateUUID(subcategoryId)){
       throw new ValidationException('Please enter the ID format correctly')
@@ -39,6 +40,7 @@ export default class PostService {
     
     return subcategory
   }
+  
   private async validateAndGetPost(postId: string){
     if(!validateUUID(postId)){
       throw new ValidationException('Please enter the ID format correctly')
@@ -52,7 +54,7 @@ export default class PostService {
 
     return post
   }
-
+  //-----------------------------------public methods
   public async deleteImageService(imageName?: string, thumbnailName?: string, compressedThumbnail?: string){
     let result
     if(imageName){

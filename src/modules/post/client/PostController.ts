@@ -1,8 +1,6 @@
-import ValidationException from "../../../exceptions/ValidationException";
 import PostSorting from "../entity/contracts/PostSorting";
 import PostService from "./PostService";
 import { Request, Response, NextFunction } from "express";
-import { validate as validateUUID } from 'uuid'
 
 export default class PostController {
   private readonly service: PostService;
@@ -13,10 +11,10 @@ export default class PostController {
 
   public async getPostsController(req: Request, res: Response, next: NextFunction){
     try {
-      const sorting: PostSorting = req.query.sorting as PostSorting
+      const sorting: PostSorting | undefined = req.query.sorting ? req.query.sorting as PostSorting : undefined
       const page: number = req.query.page ? +req.query.page : 1
  
-      const posts = await this.service.getPostsService(sorting, page)
+      const posts = await this.service.getPostsService(page, sorting)
 
       res.status(200).send({
         posts
@@ -29,7 +27,6 @@ export default class PostController {
   public async postDetailsController(req: Request, res: Response, next: NextFunction){
     try {
       const slug: string = req.params.slug as string
-
       const post = await this.service.postDetailsService(slug)
 
       res.status(200).send({
@@ -43,11 +40,7 @@ export default class PostController {
 
   public async postViewsController(req: Request, res: Response, next: NextFunction){
     try {
-      const postId: string = req.params.id as string
-
-      if(!validateUUID(postId)){
-        throw new ValidationException('Please enter the ID format correctly')
-      }
+      const postId: string = req.params.id
 
       await this.service.postViewsService(postId)
 
@@ -61,12 +54,8 @@ export default class PostController {
 
   public async postLikeController(req: Request, res: Response, next: NextFunction){
     try {
-      const postId: string = req.params.id as string
+      const postId: string = req.params.id
       const userId: string = req.user?.id as string
-
-      if(!validateUUID(postId)){
-        throw new ValidationException('Please enter the ID format correctly')
-      }
 
       const likeResult = await this.service.postLikeService(postId, userId)
 

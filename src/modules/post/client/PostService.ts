@@ -1,33 +1,47 @@
 import IPagination from "../../contracts/IPaginaton"
 import PostSorting from "../entity/contracts/PostSorting"
-import PostRepositoryProvider from "./PostRepositoryProvider"
+import PostFactory from "./PostFactory"
 import { collection } from "../services/TransformerPostList"
 import { transform } from '../services/TransformerPostDetails'
-import IPostPG from "../entity/contracts/IPost.PG"
 import NotFoundException from "../../../exceptions/NotFoundException"
 import ValidationException from "../../../exceptions/ValidationException"
 import ServerException from "../../../exceptions/ServerException"
+import { validate as validateUUID } from "uuid"
 
 export default class PostService {
-  private readonly repositoryProvider: PostRepositoryProvider
+  private readonly postFactory: PostFactory
 
   constructor(){
-    this.repositoryProvider = new PostRepositoryProvider()
+    this.postFactory = new PostFactory()
   }
+  //-----------------------------------private methods
+  private async validateAndGetPost(postId: string){
+    if(!validateUUID){
+      throw new ValidationException('Please enter the ID format correctly')
+    }
 
-  public async getPostsService(sorting: PostSorting, page: number){
+    const post = await this.postFactory.getPostById(postId)
+
+    if(!post){
+      throw new NotFoundException('not found any post with this ID')
+    }
+
+    return post
+  }
+  //-----------------------------------public methods
+  public async getPostsService(page: number, sorting?: PostSorting){
     const pagination: IPagination = {
       take: 20,
       skip: (page - 1) * 20
     }
 
-    const getSortingPosts = await this.repositoryProvider.getSortingPosts(pagination, sorting)
+    const getSortingPosts = await this.postFactory.getSortingPosts(['author', 'subcategory.category'], pagination, sorting)
     const transformPosts = await collection(getSortingPosts)
     return transformPosts
   }
 
   public async postDetailsService(slug: string){
-    const resultQuery = await this.repositoryProvider.getPostBySlug(slug)
+    const resultQuery = await this.postFactory.getPostBySlug(slug)
     if(!resultQuery){
       throw new NotFoundException('post Not Found!')
     }
@@ -36,31 +50,32 @@ export default class PostService {
   }
 
   public async postViewsService(postId: string){
-    const post = await this.repositoryProvider.getPostById(postId)
-    if(!post){
-      throw new NotFoundException('not found any post whit this ID')
-    }
-    const updateResult = await this.repositoryProvider.updatePostViews(postId, post.views)
+    const post = await this.validateAndGetPost(postId)
+    const updateResult = await this.postFactory.updatePostViews(postId, post.views)
     if(!updateResult){
       throw new ServerException('updating failed!')
     }
   } 
 
   public async postLikeService(postId: string, userId: string){
-    const post = await this.repositoryProvider.getPostById(postId)
-    if(!post){
-      throw new NotFoundException('not found any post with this Id')
-    }
+    const post = await this.validateAndGetPost(postId)
     const likes = post.likes
     const userIndex = likes.indexOf(userId)
 
     if(userIndex > -1){
       likes.splice(userIndex, 1)
-      await this.repositoryProvider.updatePostLikes(postId, likes)
+      const result = await this.postFactory.updatePostLikes(postId, likes)
+      if(result){
+        throw new ServerException('Unable to update post likes')
+      }
       return 'dislike'
-    }else {
+    }
+    if(userIndex < 0){
       likes.push(userId)
-      await this.repositoryProvider.updatePostLikes(postId, likes)
+      const result = await this.postFactory.updatePostLikes(postId, likes)
+      if(!result){
+        throw new ServerException('Unable to update post likes')
+      }
       return 'like'
     }
   }

@@ -4,21 +4,21 @@ import IUserPG from "../../../user/entity/contracts/IUser.PG"
 
 export default interface IPostPG {
   id: string
-  author: string
+  author: IUserPG
   title: string
   metaTitle: string
+  description: string
   metaDescription: string
-  body: string
   thumbnail: string
   thumbnailAltText: string
   compressedThumbnail: string
   gallery: string[]
   slug: string
-  subcategory: string
+  subcategory: ISubcategoryPG
   views: number
   tags: string[]
   likes: string[]
-  // comments: ICommentPG[]
+  comments: ICommentPG[]
   // favoriteBy: IUserPG[]
   createdAt: Date
   updatedAt: Date
