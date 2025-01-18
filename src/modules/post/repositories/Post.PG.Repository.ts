@@ -18,12 +18,29 @@ export default class PostPGRepository implements IPostPGRepository {
   public async findMany(params: Partial<IPostPG>, relations?: string[], pagination?: IPagination, sort?: PostSorting): Promise<IPostPG[]> {
     const whereClause: FindOptionsWhere<PostPG> = { ...params } as FindOptionsWhere<PostPG>
     if(sort && sort === PostSorting.NEWEST){
-      return await PostPG.find({take: pagination?.take, skip: pagination?.skip, order: {createdAt: 'DESC'}, relations})
+      return await PostPG.find({
+        where: whereClause, 
+        order: {createdAt: 'DESC'}, 
+        relations,
+        take: pagination?.take, 
+        skip: pagination?.skip, 
+      })
     }
     if(sort && sort === PostSorting.POPULAR){
-      return await PostPG.find({take: pagination?.take, skip: pagination?.skip, order: {views: 'DESC'}, relations})
+      return await PostPG.find({
+        where: whereClause,
+        order: {views: 'DESC'},
+        relations,
+        take: pagination?.take,
+        skip: pagination?.skip,
+      })
     }
-    return await PostPG.find({take: pagination?.take, skip: pagination?.skip, where: whereClause, relations})
+    return await PostPG.find({
+      where: whereClause, 
+      relations,
+      take: pagination?.take,
+      skip: pagination?.skip,
+      })
   }
 
   public async create(params: Partial<IPostPG>): Promise<IPostPG> {
