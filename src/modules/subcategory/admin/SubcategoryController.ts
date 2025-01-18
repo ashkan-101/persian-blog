@@ -10,15 +10,14 @@ export default class SubcategoryController {
     this.service = new SubcategoryService()
   }
 
-  public async newSubcategory(req: Request, res: Response, next: NextFunction){
+  public async newSubcategoryController(req: Request, res: Response, next: NextFunction){
     try {
       const subcategoryTitle: string = req.body.subcategoryTitle
       const categoryId: string = req.body.categoryId
       
-      const subcategory: ISubcategoryPG = await this.service.newSubcategory(subcategoryTitle, categoryId)
+      const subcategory: ISubcategoryPG = await this.service.newSubcategoryService(subcategoryTitle, categoryId)
       
       res.status(201).send({
-        msg: true,
         subcategory
       })
     } catch (error) {
@@ -26,11 +25,11 @@ export default class SubcategoryController {
     }
   }
 
-  public async deleteSubcategory(req: Request, res: Response, next: NextFunction){
+  public async deleteSubcategoryController(req: Request, res: Response, next: NextFunction){
     try {
       const subcategoryId: string = req.params.id
 
-      await this.service.deleteSubcategory(subcategoryId)
+      await this.service.deleteSubcategoryService(subcategoryId)
 
       res.status(200).send({
         msg: true
@@ -40,11 +39,13 @@ export default class SubcategoryController {
     }
   }
 
-  public async getSubcategories(req: Request, res: Response, next: NextFunction){
+  public async getSubcategoriesController(req: Request, res: Response, next: NextFunction){
     try {
-      const subcategories: ISubcategoryPG[] = await this.service.getSubcategories()
+      const page: number = req.query.page ? +req.query.page : 1
+
+      const subcategories = await this.service.getSubcategoriesService(page)
+
       res.status(200).send({
-        msg: true,
         subcategories
       })
     } catch (error) {
