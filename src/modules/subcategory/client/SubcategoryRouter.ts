@@ -4,6 +4,6 @@ import SubcategoryController from "./SubcategoryController";
 const subcategoryClientRouter: Router = Router()
 const controller = new SubcategoryController()
 
-subcategoryClientRouter.get('/subcategory-list', controller.subcategoryList.bind(controller))
+subcategoryClientRouter.get('/all', controller.subcategoryList.bind(controller)) //get page number in query
 
 export default subcategoryClientRouter

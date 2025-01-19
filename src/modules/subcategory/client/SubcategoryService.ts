@@ -1,16 +1,22 @@
-import SubcategoryRepositoryProvider from "./SubcategoryRepositoryProvider"
+import IPagination from "../../contracts/IPaginaton"
+import SubcategoryFactory from "./SubcategoryFactory"
 
 
 export default class SubcategoryService{
-  private readonly repositoryProvider: SubcategoryRepositoryProvider
+  private readonly subcategoryFactory: SubcategoryFactory
 
   constructor(){
-    this.repositoryProvider = new SubcategoryRepositoryProvider()
+    this.subcategoryFactory = new SubcategoryFactory()
   }
 
-  public async subcategoryList(){
-    const list = await this.repositoryProvider.getAllSubcategories(['category'])
-    return list
+  public async subcategoryList(page: number){
+    const pagination: IPagination = {
+      take: 30,
+      skip: (page - 1) * 30
+    }
+
+    const subcategories = await this.subcategoryFactory.getAllSubcategories(['category'], pagination)
+    return subcategories
   }
 
 }

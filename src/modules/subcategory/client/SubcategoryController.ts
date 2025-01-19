@@ -12,9 +12,11 @@ export default class SubcategoryController {
 
   public async subcategoryList(req: Request, res: Response, next: NextFunction){
     try {
-      const subcategories: ISubcategoryPG[] = await this.service.subcategoryList()
+      const page: number = req.query.page ? +req.query.page : 1
+
+      const subcategories = await this.service.subcategoryList(page)
+
       res.status(200).send({
-        msg: true,
         userId: req.user?.id,
         subcategories
       })
